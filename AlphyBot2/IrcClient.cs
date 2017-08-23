@@ -49,11 +49,11 @@ namespace AlphyBot2
 
         public void sendChatMessage(string message)
         {
-            sendIrcMessage(":" + userName + "!" + userName + "@" + userName
+            sendIrcMessage(":" + userName + "!" + userName + "@" + userName 
                 + ".tmi.twitch.tv PRIVMSG #" + channel + " :" + message);
         }
 
-        public string readMessage()
+        public string readChatMessage()
         {
             string message = inputStream.ReadLine();
             return message;

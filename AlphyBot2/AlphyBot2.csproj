@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A536568E-6FB5-4DA4-8005-C78E4682FAEE}</ProjectGuid>
+    <ProjectGuid>{97F5FE52-5EE0-4ECF-BDC9-35EC1A1FDF86}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>AlphyBot2</RootNamespace>
     <AssemblyName>AlphyBot2</AssemblyName>
@@ -42,8 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
     <Compile Include="IrcClient.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

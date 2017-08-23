@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Net;
 
 namespace AlphyBot2
 {
@@ -11,27 +10,25 @@ namespace AlphyBot2
     {
         static void Main(string[] args)
         {
-            IrcClient irc = new IrcClient("irc.twitch.tv", 6667, "alphybot", "password");
+            IrcClient irc = new IrcClient("irc.twitch.tv", 6667, "alphybot", "oauth:supersecretpasswordxd");
             irc.joinRoom("alphuite");
-
-            Console.WriteLine("This is a test message xd");
 
             string a;
             string b;
-            while (true)
+            b = "";
+
+            while(true)
             {
-                string message = irc.readMessage();
+                string message = irc.readChatMessage();
                 a = message;
-                if (a != b)
+                if(a != b)
                 {
                     Console.WriteLine(a);
-                    a = b;
+                    b = a;
                 }
-                
-
                 if (message.Contains("!test"))
                 {
-                    irc.sendChatMessage("tested!");
+                    irc.sendChatMessage("it works mayhaps!");
                 }
             }
         }
