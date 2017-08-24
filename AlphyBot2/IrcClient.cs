@@ -53,7 +53,7 @@ namespace AlphyBot2
                 + ".tmi.twitch.tv PRIVMSG #" + channel + " :" + message);
         }
 
-        public string readChatMessage()
+        public string readIrcMessage()
         {
             string message = inputStream.ReadLine();
             return message;

@@ -10,25 +10,30 @@ namespace AlphyBot2
     {
         static void Main(string[] args)
         {
+            // Join a Twitch Channel
             IrcClient irc = new IrcClient("irc.twitch.tv", 6667, "alphybot", "oauth:supersecretpasswordxd");
             irc.joinRoom("alphuite");
-
-            string a;
-            string b;
-            b = "";
-
+            
+            // Main Loop
             while(true)
             {
-                string message = irc.readChatMessage();
-                a = message;
-                if(a != b)
-                {
-                    Console.WriteLine(a);
-                    b = a;
-                }
+                // Read last IRC message
+                string message = irc.readIrcMessage();
+
+                // Echo **all** IRC messages
+                Console.WriteLine(message);
+
+                // Test Chat-Command
                 if (message.Contains("!test"))
                 {
                     irc.sendChatMessage("it works mayhaps!");
+                }
+
+                // Reply with a Pong to the server, in case of Ping
+                if (message.Equals("PING :tmi.twitch.tv"))
+                {
+                    irc.sendIrcMessage("PONG :tmi.twitch.tv");
+                    Console.WriteLine("PONG :tmi.twitch.tv"); // Just to make sure
                 }
             }
         }
