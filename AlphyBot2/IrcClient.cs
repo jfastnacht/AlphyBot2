@@ -33,7 +33,7 @@ namespace AlphyBot2
 
         }
 
-        public void joinRoom(string channel)
+        public void JoinRoom(string channel)
         {
             this.channel = channel;
 
@@ -41,19 +41,19 @@ namespace AlphyBot2
             outputStream.Flush();
         }
 
-        public void sendIrcMessage(string message)
+        public void SendIrcMessage(string message)
         {
             outputStream.WriteLine(message);
             outputStream.Flush();
         }
 
-        public void sendChatMessage(string message)
+        public void SendChatMessage(string message)
         {
-            sendIrcMessage(":" + userName + "!" + userName + "@" + userName 
+            SendIrcMessage(":" + userName + "!" + userName + "@" + userName 
                 + ".tmi.twitch.tv PRIVMSG #" + channel + " :" + message);
         }
 
-        public string readIrcMessage()
+        public string ReadIrcMessage()
         {
             string message = inputStream.ReadLine();
             return message;
