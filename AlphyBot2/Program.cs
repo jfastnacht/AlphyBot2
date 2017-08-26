@@ -9,13 +9,12 @@ namespace AlphyBot2
 {
     class Program
     {
-        public class Message
+        struct  Message
         {
-            public string Text { get; set; }
-            public string Channel { get; set; }
-            public string UserName { get; set; }
-            public string TimeStamp { get; set; }
-            public Message(){}
+            public string Text;
+            public string Channel;
+            public string UserName;
+            public string TimeStamp;
             public Message(string text, string channel, string userName, string timeStamp)
             {
                 Text = text;
@@ -25,21 +24,19 @@ namespace AlphyBot2
             }
         }
 
-
-
         static void Main(string[] args)
         {
 
             // Join a Twitch Channel
             IrcClient irc = new IrcClient("irc.twitch.tv", 6667, "alphybot", "oauth:supersecretpasswordxd");
-            irc.JoinRoom("alphuite");
-            Log.ErrorMessage("This is a test error message!");
+            
+	    irc.JoinRoom("alphuite");
             // Main Loop
             while(true)
             {
                 // Read last IRC message
                 string message = irc.ReadIrcMessage();
-                Message m = new Message();
+                Message message;
 
                 // Parse the IRC message for twitch message
                 Regex regex = new Regex(@"\:\w+!\w+@\w+.tmi.twitch.tv PRIVMSG #\w+ :.+");
@@ -47,18 +44,18 @@ namespace AlphyBot2
                 if (match.Success)
                 {
                     // Create Message
-                    m.UserName = match.Value.Split('!')[0].Replace(':', ' ').Trim();
-                    m.Text = Regex.Replace(match.Value, "\\:\\w+!\\w+@\\w+.tmi.twitch.tv PRIVMSG #\\w+ :", " ").Trim();
-                    m.Channel = Regex.Replace(match.Value, "\\:\\w+!\\w+@\\w+.tmi.twitch.tv PRIVMSG ", " ").Split(':')[0].Trim();
-                    m.TimeStamp = Log.GetTimestamp(DateTime.Now);
+                    message.UserName = match.Value.Split('!')[0].Replace(':', ' ').Trim();
+                    message.Text = Regex.Replace(match.Value, "\\:\\w+!\\w+@\\w+.tmi.twitch.tv PRIVMSG #\\w+ :", " ").Trim();
+                    message.Channel = Regex.Replace(match.Value, "\\:\\w+!\\w+@\\w+.tmi.twitch.tv PRIVMSG ", " ").Split(':')[0].Trim();
+                    message.TimeStamp = Log.GetTimestamp(DateTime.Now);
 
                     // Write Message
-                    Log.ChatMessage(m.TimeStamp, m.UserName, m.Channel, m.Text);
+                    Log.ChatMessage(message.TimeStamp, mesaage.UserName, message.Channel, message.Text);
 
                     // Test Chat-Command
-                    if (m.Text.StartsWith("@alphuite"))
+                    if (message.Text.StartsWith("!test"))
                     {
-                        irc.SendChatMessage("My reply");
+                        irc.SendChatMessage("This is a test command!");
                     }
 
                 } else
