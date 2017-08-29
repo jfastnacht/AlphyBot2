@@ -51,6 +51,8 @@ namespace AlphyBot2
         {
             SendIrcMessage(":" + userName + "!" + userName + "@" + userName 
                 + ".tmi.twitch.tv PRIVMSG #" + channel + " :" + message);
+
+            Log.ChatMessage(Log.GetTimestamp(DateTime.Now), userName, "#" + channel, message);
         }
 
         public string ReadIrcMessage()

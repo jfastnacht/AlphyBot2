@@ -36,7 +36,7 @@ namespace AlphyBot2
             {
                 // Read last IRC message
                 string message = irc.ReadIrcMessage();
-                Message message;
+                Message msg;
 
                 // Parse the IRC message for twitch message
                 Regex regex = new Regex(@"\:\w+!\w+@\w+.tmi.twitch.tv PRIVMSG #\w+ :.+");
@@ -44,16 +44,16 @@ namespace AlphyBot2
                 if (match.Success)
                 {
                     // Create Message
-                    message.UserName = match.Value.Split('!')[0].Replace(':', ' ').Trim();
-                    message.Text = Regex.Replace(match.Value, "\\:\\w+!\\w+@\\w+.tmi.twitch.tv PRIVMSG #\\w+ :", " ").Trim();
-                    message.Channel = Regex.Replace(match.Value, "\\:\\w+!\\w+@\\w+.tmi.twitch.tv PRIVMSG ", " ").Split(':')[0].Trim();
-                    message.TimeStamp = Log.GetTimestamp(DateTime.Now);
+                    msg.UserName = match.Value.Split('!')[0].Replace(':', ' ').Trim();
+                    msg.Text = Regex.Replace(match.Value, "\\:\\w+!\\w+@\\w+.tmi.twitch.tv PRIVMSG #\\w+ :", " ").Trim();
+                    msg.Channel = Regex.Replace(match.Value, "\\:\\w+!\\w+@\\w+.tmi.twitch.tv PRIVMSG ", " ").Split(':')[0].Trim();
+                    msg.TimeStamp = Log.GetTimestamp(DateTime.Now);
 
                     // Write Message
-                    Log.ChatMessage(message.TimeStamp, mesaage.UserName, message.Channel, message.Text);
+                    Log.ChatMessage(msg.TimeStamp, msg.UserName, msg.Channel, msg.Text);
 
                     // Test Chat-Command
-                    if (message.Text.StartsWith("!test"))
+                    if (msg.Text.StartsWith("!test"))
                     {
                         irc.SendChatMessage("This is a test command!");
                     }
