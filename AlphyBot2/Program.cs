@@ -85,16 +85,15 @@ namespace AlphyBot2
                 Message msg;
 
                 // Parse the IRC message for twitch message
-                Regex regex = new Regex(@"\:\w+!\w+@\w+.tmi.twitch.tv PRIVMSG #\w+ :.+");
-                Match match = regex.Match(message);
-                if (match.Success)
-                {
-                    // Create Message
-                    msg.UserName = match.Value.Split('!')[0].Replace(':', ' ').Trim();
-                    msg.Text = Regex.Replace(match.Value, "\\:\\w+!\\w+@\\w+.tmi.twitch.tv PRIVMSG #\\w+ :", " ").Trim();
-                    msg.Channel = Regex.Replace(match.Value, "\\:\\w+!\\w+@\\w+.tmi.twitch.tv PRIVMSG ", " ").Split(':')[0].Trim();
-                    msg.TimeStamp = Log.GetTimestamp(DateTime.Now);
+                Regex twitchIrcMessageRegex = new Regex(@":(\w)!\w+@\w+\.tmi\.twitch\.tv PRIVMSG #(\w+) :(.+)");
+                Match twitchIrcMessageMatch = twitchIrcMessageRegex.Match(message);
 
+                if (twitchIrcMessageMatch.Success)
+                {
+                    msg.UserName = twitchIrcMessageMatch.Groups[1].Value;
+                    msg.Channel = twitchIrcMessageMatch.Groups[2].Value;
+                    msg.Text = twitchIrcMessageMatch.Groups[3].Value;
+                    msg.TimeStamp = Log.GetTimestamp(DateTime.Now);
                     // Write Message
                     Log.ChatMessage(msg.TimeStamp, msg.UserName, msg.Channel, msg.Text);
 
@@ -104,7 +103,8 @@ namespace AlphyBot2
                         irc.SendChatMessage("This is a test command!");
                     }
 
-                } else
+                }
+                else
                 {
                     // Write all IRC messages that aren't parsed as Twitch chat messages.
                     Log.SystemMessage(message);
