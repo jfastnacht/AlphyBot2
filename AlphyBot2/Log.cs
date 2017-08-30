@@ -39,5 +39,15 @@ namespace AlphyBot2
             Console.WriteLine(message);
             Console.ResetColor();
         }
+
+        static public void InfoMessage(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("[{0}] ", GetTimestamp(DateTime.Now));
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.Write("[INFO] ");
+            Console.ResetColor();
+            Console.WriteLine(message);
+        }
     }
 }

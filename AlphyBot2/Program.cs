@@ -4,11 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
+using System.Reflection;
+using System.IO;
+using System.Xml;
 
 namespace AlphyBot2
 {
     class Program
     {
+
         struct  Message
         {
             public string Text;
@@ -24,13 +28,55 @@ namespace AlphyBot2
             }
         }
 
+        class Settings
+        {
+            public static string userName;
+            public static string password;
+            public static string channel;
+
+            public static void GetSettings()
+            {
+                XmlDocument settingsXml = new XmlDocument();
+                try {
+                    // TODO:
+                    // - Validate that the elements are in the file (c# verify xml with xsd)
+                    settingsXml.Load(AppDomain.CurrentDomain.BaseDirectory + "settings.xml");
+                    XmlNodeList foundUserName = settingsXml.GetElementsByTagName("username");
+                    XmlNodeList foundPassword = settingsXml.GetElementsByTagName("password");
+                    XmlNodeList foundChannel = settingsXml.GetElementsByTagName("channel");
+
+                    userName = foundUserName[0].InnerText;
+                    password = foundPassword[0].InnerText;
+                    channel = foundChannel[0].InnerText;
+
+                    if(userName.Equals("") || password.Equals("") || channel.Equals(""))
+                    {
+                        Log.ErrorMessage("Check your settings file for missing variables!");
+                        System.Environment.Exit(0);
+                    } else
+                    {
+                        Log.InfoMessage("Loaded settings.ini !");
+                    }
+
+                }
+
+                catch(Exception e)
+                {
+                    Log.ErrorMessage("Error with the Settings file accured");
+                    Log.ErrorMessage(e.Data.ToString());
+                    System.Environment.Exit(0);
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
+            Settings.GetSettings();
 
             // Join a Twitch Channel
-            IrcClient irc = new IrcClient("irc.twitch.tv", 6667, "alphybot", "oauth:supersecretpasswordxd");
+            IrcClient irc = new IrcClient("irc.twitch.tv", 6667, Settings.userName, Settings.password);
             
-	    irc.JoinRoom("alphuite");
+	        irc.JoinRoom(Settings.channel);
             // Main Loop
             while(true)
             {
